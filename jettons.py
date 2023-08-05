@@ -2,7 +2,7 @@ from pytoniq_core import begin_cell
 from base64 import urlsafe_b64encode
 
 
-def get_jetton_transfer_message(jetton_wallet_address: str, recipient_address: str, transfer_fee: int, jettons_amount: int) -> dict:
+def get_jetton_transfer_message(jetton_wallet_address: str, recipient_address: str, transfer_fee: int, jettons_amount: int, response_address: str = None) -> dict:
     data = {
         'address': jetton_wallet_address,
         'amount': str(transfer_fee),
@@ -12,7 +12,7 @@ def get_jetton_transfer_message(jetton_wallet_address: str, recipient_address: s
             .store_uint(0, 64)  # query_id
             .store_coins(jettons_amount)
             .store_address(recipient_address)  # destination address
-            .store_address(recipient_address)  # address send notification to
+            .store_address(response_address or recipient_address)  # address send excess to
             .store_uint(0, 1)  # custom payload
             .store_coins(1)  # forward amount
             .store_uint(0, 1)  # forward payload
@@ -25,7 +25,7 @@ def get_jetton_transfer_message(jetton_wallet_address: str, recipient_address: s
     return data
 
 
-def get_jetton_burn_message(jetton_wallet_address: str, transfer_fee: int, jettons_amount: int, response_address=None) -> dict:
+def get_jetton_burn_message(jetton_wallet_address: str, transfer_fee: int, jettons_amount: int, response_address: str = None) -> dict:
     data = {
         'address': jetton_wallet_address,
         'amount': str(transfer_fee),
@@ -34,7 +34,7 @@ def get_jetton_burn_message(jetton_wallet_address: str, transfer_fee: int, jetto
             .store_uint(0x595f07bc, 32)  # op code for jetton transfer message
             .store_uint(0, 64)  # query_id
             .store_coins(jettons_amount)
-            .store_address(response_address)  # address send notification to
+            .store_address(response_address)  # address send excess to
             .end_cell()  # end cell
             .to_boc()  # convert it to boc
         )

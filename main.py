@@ -37,7 +37,8 @@ async def main():
         await asyncio.sleep(1)
         if connector.connected:
             if connector.account.address:
-                print('Connected with address:', Address(connector.account.address))
+                wallet_address = connector.account.address
+                print('Connected with address:', Address(wallet_address))
             break
 
     if connector.connected:
@@ -52,20 +53,23 @@ async def main():
                     comment='hello world!'
                 ),
                 get_nft_transfer_message(
-                    nft_address='EQDrA-3zsJXTfGo_Vdzg8d07Da4vSdHZllc6W9qvoNoMstF-',
+                    nft_address='EQApMsnEn3u1jdZeNZAqefjao5L8STrlimUI4WYQXnnedCCb',
                     recipient_address='0:0000000000000000000000000000000000000000000000000000000000000000',
-                    transfer_fee=int(0.05 * 10**9)
+                    transfer_fee=int(0.05 * 10**9),
+                    response_address=wallet_address
                 ),
                 get_jetton_transfer_message(
                     jetton_wallet_address='EQCXsVvdxTVmSIvYv4tTQoQ-0Yq9mERGTKfbsIhedbN5vTVV',
                     recipient_address='0:0000000000000000000000000000000000000000000000000000000000000000',
                     transfer_fee=int(0.05 * 10**9),
-                    jettons_amount=int(0.01 * 10**9)  # replace 9 for jetton decimal. For example for jUSDT it should be (amount * 10**6)
+                    jettons_amount=int(0.01 * 10**9),  # replace 9 for jetton decimal. For example for jUSDT it should be (amount * 10**6)
+                    response_address=wallet_address
                 ),
                 get_jetton_burn_message(
                     jetton_wallet_address='EQCXsVvdxTVmSIvYv4tTQoQ-0Yq9mERGTKfbsIhedbN5vTVV',
                     transfer_fee=int(0.05 * 10 ** 9),
-                    jettons_amount=int(0.01 * 10 ** 9)  # replace 9 for jetton decimal. For example for jUSDT it should be (amount * 10**6)
+                    jettons_amount=int(0.01 * 10 ** 9),  # replace 9 for jetton decimal. For example for jUSDT it should be (amount * 10**6)
+                    response_address=wallet_address
                 )
             ]
         }
