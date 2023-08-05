@@ -11,7 +11,7 @@ def get_nft_transfer_message(nft_address: str, recipient_address: str, transfer_
             .store_uint(0x5fcc3d14, 32)  # op code for nft transfer message
             .store_uint(0, 64)  # query_id
             .store_address(recipient_address)  # new owner
-            .store_address(response_address or response_address)  # address send excess to
+            .store_address(response_address or recipient_address)  # address send excess to
             .store_uint(0, 1)  # custom payload
             .store_coins(1)  # forward amount
             .store_uint(0, 1)  # forward payload
