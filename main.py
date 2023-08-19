@@ -9,6 +9,7 @@ from pytonconnect.exceptions import UserRejectsError
 from comments import get_comment_message
 from nfts import get_nft_transfer_message
 from jettons import get_jetton_transfer_message, get_jetton_burn_message
+from nft_sale import get_sale_body
 
 
 async def main():
@@ -47,30 +48,37 @@ async def main():
         transaction = {
             'valid_until': int(time.time() + 3600),
             'messages': [
-                get_comment_message(
-                    destination_address='0:0000000000000000000000000000000000000000000000000000000000000000',
-                    amount=int(0.01 * 10**9),  # amount should be specified in nanocoins
-                    comment='hello world!'
+                get_sale_body(
+                    wallet_address=wallet_address,
+                    royalty_address=wallet_address,
+                    nft_address='EQDxP7tp6xc27-zj32Js6OYOKbYuMCjqEuaPusqa8owpFxR8',
+                    price=int(10.5 * 10**9),
+                    amount=int(1.08 * 10**9)
                 ),
-                get_nft_transfer_message(
-                    nft_address='EQDrA-3zsJXTfGo_Vdzg8d07Da4vSdHZllc6W9qvoNoMstF-',
-                    recipient_address='0:0000000000000000000000000000000000000000000000000000000000000000',
-                    transfer_fee=int(0.07 * 10**9),
-                    response_address=wallet_address
-                ),
-                get_jetton_transfer_message(
-                    jetton_wallet_address='EQCXsVvdxTVmSIvYv4tTQoQ-0Yq9mERGTKfbsIhedbN5vTVV',
-                    recipient_address='0:0000000000000000000000000000000000000000000000000000000000000000',
-                    transfer_fee=int(0.07 * 10**9),
-                    jettons_amount=int(0.01 * 10**9),  # replace 9 for jetton decimal. For example for jUSDT it should be (amount * 10**6)
-                    response_address=wallet_address
-                ),
-                get_jetton_burn_message(
-                    jetton_wallet_address='EQCXsVvdxTVmSIvYv4tTQoQ-0Yq9mERGTKfbsIhedbN5vTVV',
-                    transfer_fee=int(0.07 * 10 ** 9),
-                    jettons_amount=int(0.01 * 10 ** 9),  # replace 9 for jetton decimal. For example for jUSDT it should be (amount * 10**6)
-                    response_address=wallet_address
-                )
+                # get_comment_message(
+                #     destination_address='0:0000000000000000000000000000000000000000000000000000000000000000',
+                #     amount=int(0.01 * 10**9),  # amount should be specified in nanocoins
+                #     comment='hello world!'
+                # ),
+                # get_nft_transfer_message(
+                #     nft_address='EQDrA-3zsJXTfGo_Vdzg8d07Da4vSdHZllc6W9qvoNoMstF-',
+                #     recipient_address='0:0000000000000000000000000000000000000000000000000000000000000000',
+                #     transfer_fee=int(0.07 * 10**9),
+                #     response_address=wallet_address
+                # ),
+                # get_jetton_transfer_message(
+                #     jetton_wallet_address='EQCXsVvdxTVmSIvYv4tTQoQ-0Yq9mERGTKfbsIhedbN5vTVV',
+                #     recipient_address='0:0000000000000000000000000000000000000000000000000000000000000000',
+                #     transfer_fee=int(0.07 * 10**9),
+                #     jettons_amount=int(0.01 * 10**9),  # replace 9 for jetton decimal. For example for jUSDT it should be (amount * 10**6)
+                #     response_address=wallet_address
+                # ),
+                # get_jetton_burn_message(
+                #     jetton_wallet_address='EQCXsVvdxTVmSIvYv4tTQoQ-0Yq9mERGTKfbsIhedbN5vTVV',
+                #     transfer_fee=int(0.07 * 10 ** 9),
+                #     jettons_amount=int(0.01 * 10 ** 9),  # replace 9 for jetton decimal. For example for jUSDT it should be (amount * 10**6)
+                #     response_address=wallet_address
+                # )
             ]
         }
 
